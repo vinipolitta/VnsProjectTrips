@@ -15,9 +15,6 @@ namespace VnsProjectTrips.Controllers
 
         public MarketController(DataContext context)
         {
-
-
-
             _context = context;
         }
         [HttpGet]
