@@ -1,18 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using VnsProjectTrips.Aplication;
+using VnsProjectTrips.Aplication.Interfaces;
 using VnsProjectTrips.Data;
+using VnsProjectTrips.Persistence;
+using VnsProjectTrips.Persistence.Interfaces;
+using AutoMapper;
 
 namespace VnsProjectTrips
 {
@@ -32,7 +30,20 @@ namespace VnsProjectTrips
             (
                 context => context.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
-            services.AddControllers();
+            //EVITA LOOP INFINITO
+            services.AddControllers().AddNewtonsoftJson
+            (
+                x => x.SerializerSettings.ReferenceLoopHandling = 
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
+
+            services.AddScoped<IMarketService, MarketService>();
+
+            services.AddScoped<IGeralPersist, GeralPersist>();
+            services.AddScoped<IMarketPersist, MarketPersist>();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VnsProjectTrips", Version = "v1" });

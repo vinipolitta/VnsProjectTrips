@@ -58,3 +58,6 @@ D:\repos\backend\VnsProjectTrips\VnsProjectTrips\obj\Debug\net5.0\refint\VnsProj
 D:\repos\backend\VnsProjectTrips\VnsProjectTrips\obj\Debug\net5.0\VnsProjectTrips.pdb
 D:\repos\backend\VnsProjectTrips\VnsProjectTrips\obj\Debug\net5.0\VnsProjectTrips.genruntimeconfig.cache
 D:\repos\backend\VnsProjectTrips\VnsProjectTrips\obj\Debug\net5.0\ref\VnsProjectTrips.dll
+D:\repos\backend\VnsProjectTrips\VnsProjectTrips\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\repos\backend\VnsProjectTrips\VnsProjectTrips\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\repos\backend\VnsProjectTrips\VnsProjectTrips\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
