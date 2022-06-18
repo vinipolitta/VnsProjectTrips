@@ -9,6 +9,9 @@ namespace VnsProjectTrips.Aplication.Helperss
         public MarketsProfile()
         {
             CreateMap<Market, MarketDto>().ReverseMap();
+            CreateMap<MarketItem, MarketItemDto>().ReverseMap();
+            CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<Review, ReviewDto>().ReverseMap();
         }
     }
 }

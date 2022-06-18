@@ -1,4 +1,6 @@
-﻿namespace VnsProjectTrips.Aplication.Dtos
+﻿using System.Collections.Generic;
+
+namespace VnsProjectTrips.Aplication.Dtos
 {
     public class MarketDto
     {
@@ -10,8 +12,8 @@
         public string ImagePath { get; set; }
         public string About { get; set; }
         public string Hours { get; set; }
-        //public IEnumerable<Review> Reviews { get; set; }
-        //public IEnumerable<MarketItem> MarketItens { get; set; }
-        //public IEnumerable<OrderMarket> OrdersMarkets { get; set; }
+        public IEnumerable<ReviewDto> Reviews { get; set; }
+        public IEnumerable<MarketItemDto> MarketItens { get; set; }
+        public IEnumerable<OrderDto> OrdersDto{ get; set; }
     }
 }

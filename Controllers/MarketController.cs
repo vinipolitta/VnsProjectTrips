@@ -27,7 +27,7 @@ namespace VnsProjectTrips.Controllers
             try
             {
                 var markets = await _marketService.GetAllMarketsAsync(true);
-                if (markets == null) return NotFound("Nenhum market encontrado");
+                if (markets == null) return NoContent();
 
                 var marketRetorno = new List<MarketDto>();
 
@@ -60,8 +60,8 @@ namespace VnsProjectTrips.Controllers
         {
             try
             {
-                var market = await _marketService.GetMarketByIdAsync(id);
-                if (market == null) return NotFound("Markets por id nao encontrado");
+                var market = await _marketService.GetMarketByIdAsync(id, true);
+                if (market == null) return NoContent();
                 return Ok(market);
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace VnsProjectTrips.Controllers
             try
             {
                 var market = await _marketService.GetAllMarketsByCategoryAsync(category);
-                if (market == null) return NotFound("Markets por tema nao encontrado");
+                if (market == null) return NoContent();
                 return Ok(market);
             }
             catch (Exception ex)
@@ -94,7 +94,7 @@ namespace VnsProjectTrips.Controllers
             try
             {
                 var market = await _marketService.AddMarkets(model);
-                if (market == null) return BadRequest("Erro ao tentar adicionar Markets.");
+                if (market == null) return NoContent();
                 return Ok(market);
             }
             catch (Exception ex)
@@ -110,7 +110,7 @@ namespace VnsProjectTrips.Controllers
             try
             {
                 var market = await _marketService.UpdateMarket(id, model);
-                if (market == null) return BadRequest("Erro ao tentar adicionar Markets.");
+                if (market == null) return NoContent();
                 return Ok(market);
             }
             catch (Exception ex)
@@ -125,9 +125,12 @@ namespace VnsProjectTrips.Controllers
         {
             try
             {
-                return await _marketService.DeleteMarket(id) ? 
-                    Ok("Deletado") : 
-                    BadRequest("Market nao deletado");
+                var market = await _marketService.GetMarketByIdAsync(id, true);
+                if (market == null) return NoContent();
+
+                return await _marketService.DeleteMarket(id) ?
+                    Ok("Deletado") :
+                    throw new Exception("Ocorreeu um problema nao escifico ao tentar delatar o market");
             }
             catch (Exception ex)
             {
