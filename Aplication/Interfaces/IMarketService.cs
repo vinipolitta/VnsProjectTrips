@@ -1,17 +1,17 @@
 ﻿using System.Threading.Tasks;
-using VnsProjectTrips.Domain.Models;
+using VnsProjectTrips.Aplication.Dtos;
 
 namespace VnsProjectTrips.Aplication.Interfaces
 {
     public interface IMarketService
     {
-        Task<Market> AddMarkets(Market model);
-        Task<Market> UpdateMarket(int marketId, Market model);
+        Task<MarketDto> AddMarkets(MarketDto model);
+        Task<MarketDto> UpdateMarket(int marketId, MarketDto model);
         Task<bool> DeleteMarket(int marketId);
 
 
-        Task<Market[]> GetAllMarketsAsync(bool includeOrders = false);
-        Task<Market[]> GetAllMarketsByCategoryAsync(string category, bool includeOrders = false);
-        Task<Market> GetMarketByIdAsync(int marketId, bool includeOrders = false);
+        Task<MarketDto[]> GetAllMarketsAsync(bool includeOrders = false);
+        Task<MarketDto[]> GetAllMarketsByCategoryAsync(string category, bool includeOrders = false);
+        Task<MarketDto> GetMarketByIdAsync(int marketId, bool includeOrders = false);
     }
 }

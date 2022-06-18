@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Threading.Tasks;
+using VnsProjectTrips.Aplication.Dtos;
 using VnsProjectTrips.Aplication.Interfaces;
 using VnsProjectTrips.Domain.Models;
 using VnsProjectTrips.Persistence.Interfaces;
@@ -10,20 +12,24 @@ namespace VnsProjectTrips.Aplication
     {
         private readonly IGeralPersist _geralPersist;
         private readonly IMarketPersist _marketPersist;
+        private readonly IMapper _mapper;
 
-        public MarketService(IGeralPersist geralPersist, IMarketPersist marketPersist)
+        public MarketService(IGeralPersist geralPersist, IMarketPersist marketPersist, IMapper mapper)
         {
             _geralPersist = geralPersist;
             _marketPersist = marketPersist;
+            _mapper = mapper;
         }
-        public async Task<Market> AddMarkets(Market model)
+        public async Task<MarketDto> AddMarkets(MarketDto model)
         {
             try
             {
-                _geralPersist.Add<Market>(model);
+                var market = _mapper.Map<Market>(model);
+                _geralPersist.Add<Market>(market);
                 if (await _geralPersist.SavaChangesAsync())
                 {
-                    return await _marketPersist.GetMarketByIdAsync(model.Id, false);
+                    var eventoEetorno = await _marketPersist.GetMarketByIdAsync(market.Id, false);
+                    return _mapper.Map<MarketDto>(eventoEetorno);
                 }
                 return null;
             }
@@ -32,7 +38,7 @@ namespace VnsProjectTrips.Aplication
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<Market> UpdateMarket(int marketId, Market model)
+        public async Task<MarketDto> UpdateMarket(int marketId, MarketDto model)
         {
             try
             {
@@ -41,11 +47,14 @@ namespace VnsProjectTrips.Aplication
 
                 model.Id = market.Id;
 
-                _geralPersist.Update(model);
+                _mapper.Map(model, market);
+
+                _geralPersist.Update<Market>(market);
 
                 if (await _geralPersist.SavaChangesAsync())
                 {
-                    return await _marketPersist.GetMarketByIdAsync(model.Id, false);
+                    var eventoEetorno = await _marketPersist.GetMarketByIdAsync(market.Id, false);
+                    return _mapper.Map<MarketDto>(eventoEetorno);
                 }
                 return null;
             }
@@ -54,6 +63,7 @@ namespace VnsProjectTrips.Aplication
 
                 throw new Exception(ex.Message);
             }
+
         }
 
         public async Task<bool> DeleteMarket(int marketId)
@@ -74,14 +84,15 @@ namespace VnsProjectTrips.Aplication
             }
         }
 
-        public async Task<Market[]> GetAllMarketsAsync(bool includeOrders = false)
+        public async Task<MarketDto[]> GetAllMarketsAsync(bool includeOrders = false)
         {
             try
             {
                 var markets = await _marketPersist.GetAllMarketsAsync(includeOrders);
                 if (markets == null) return null;
 
-                return markets;
+                var resultado = _mapper.Map<MarketDto[]>(markets);
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -90,14 +101,15 @@ namespace VnsProjectTrips.Aplication
             }
         }
 
-        public async Task<Market[]> GetAllMarketsByCategoryAsync(string category, bool includeOrders = false)
+        public async Task<MarketDto[]> GetAllMarketsByCategoryAsync(string category, bool includeOrders = false)
         {
             try
             {
-                var markets = await _marketPersist.GetAllMarketsByCategoryAsync(category,includeOrders);
+                var markets = await _marketPersist.GetAllMarketsByCategoryAsync(category, includeOrders);
                 if (markets == null) return null;
 
-                return markets;
+                var resultado = _mapper.Map<MarketDto[]>(markets);
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -106,14 +118,15 @@ namespace VnsProjectTrips.Aplication
             }
         }
 
-        public async Task<Market> GetMarketByIdAsync(int marketId, bool includeOrders = false)
+        public async Task<MarketDto> GetMarketByIdAsync(int marketId, bool includeOrders = false)
         {
             try
             {
-                var markets = await _marketPersist.GetMarketByIdAsync(marketId, includeOrders);
-                if (markets == null) return null;
+                var market = await _marketPersist.GetMarketByIdAsync(marketId, includeOrders);
+                if (market == null) return null;
 
-                return markets;
+                var resultado = _mapper.Map<MarketDto>(market);
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -122,6 +135,6 @@ namespace VnsProjectTrips.Aplication
             }
         }
 
-       
+
     }
 }

@@ -11,6 +11,7 @@ using VnsProjectTrips.Data;
 using VnsProjectTrips.Persistence;
 using VnsProjectTrips.Persistence.Interfaces;
 using AutoMapper;
+using System;
 
 namespace VnsProjectTrips
 {
@@ -36,7 +37,7 @@ namespace VnsProjectTrips
                 x => x.SerializerSettings.ReferenceLoopHandling = 
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
-
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IMarketService, MarketService>();
 

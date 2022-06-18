@@ -87,8 +87,9 @@ namespace VnsProjectTrips.Controllers
             }
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> post(Market model)
+        public async Task<IActionResult> post(MarketDto model)
         {
             try
             {
@@ -104,7 +105,7 @@ namespace VnsProjectTrips.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Market model)
+        public async Task<IActionResult> Put(int id, MarketDto model)
         {
             try
             {
